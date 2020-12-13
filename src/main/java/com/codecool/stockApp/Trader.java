@@ -7,19 +7,13 @@ import java.io.IOException;
  **/
 public class Trader {
 
-	private static Trader instance;
+	private final StockAPIService stockService;
 
-	public static Trader getInstance() {
-	    if (instance == null) {
-	        instance = new Trader();
-        }
-        return instance;
-    }
+	private final Logger logger ;
 
-	private StockAPIService stockService;
-
-	private Trader() {
-        this.stockService = new StockAPIService();
+	public Trader(StockAPIService stockService, Logger logger) {
+        this.stockService = stockService;
+        this.logger = logger;
     }
 
 	/** Checks the price of a stock, and buys it if the price is not greater than the bid amount.
@@ -31,10 +25,10 @@ public class Trader {
 		if (price <= bid) {
 			result = true;
 			stockService.buy(symbol);
-			Logger.getInstance().log("Purchased " + symbol + " stock at $" + bid + ", since its higher that the current price ($" + price + ")");
+			logger.log("Purchased " + symbol + " stock at $" + bid + ", since its higher that the current price ($" + price + ")");
 		}
 		else {
-            Logger.getInstance().log("Bid for " + symbol + " was $" + bid + " but the stock price is $" + price + ", no purchase was made.");
+			logger.log("Bid for " + symbol + " was $" + bid + " but the stock price is $" + price + ", no purchase was made.");
 			result = false;
 		}
 		return result;
