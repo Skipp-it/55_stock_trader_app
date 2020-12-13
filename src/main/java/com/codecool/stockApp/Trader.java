@@ -8,7 +8,6 @@ import java.io.IOException;
 public class Trader {
 
 	private final StockAPIService stockService;
-
 	private final Logger logger ;
 
 	public Trader(StockAPIService stockService, Logger logger) {
